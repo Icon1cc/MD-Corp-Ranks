@@ -1,110 +1,61 @@
-html, body, #root {
-  height: 100%;
+body, html {
   margin: 0;
-}
-
-.preferences-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: #007a99;
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 50px 0; 
-}
-
-.header {
-  position: absolute;
-  top: 10px;
-  left: 20px; 
-  right: 20px; 
   padding: 0;
-  text-align: right;
+  box-sizing: border-box;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: white;
 }
 
-.main-content {
-  width: 80%; 
-  max-width: 1200px;
-  text-align: center;
-  margin: auto;
-  padding: 40px; 
-  border: 3px solid #003344; 
-  background-color: rgba(0, 122, 153, 0.9); 
-  border-radius: 8px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-}
-
-.certification-link {
-  display: inline-block;
-  margin: 20px 0;
-  padding: 10px;
-  border: 2px solid black; 
-  border-radius: 4px; 
-  text-align: center;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-  transition: all 0.3s ease; 
-}
-
-.certification-link:hover {
-  color: #007a99; 
-  background-color: white; 
-}
-
-.select-preference {
-  margin: 20px 0;
+#root {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  flex-direction: column;
 }
 
-.select-preference label {
-  margin-right: 10px;
-  font-weight: bold; 
-}
-
-.select-preference select {
-  padding: 10px; 
-  margin-right: 20px;
-  border-radius: 4px;
-  border: 1px solid #ccc; 
-  background-color: white;
-  color: #007a99;
-}
-
-.btn-container {
+.company-input-container {
   text-align: center;
-  margin-top: 20px;
+  width: 100%;
 }
 
-.proceed-button {
-  background-color: #004d66; 
-  color: #ffffff; 
-  padding: 15px 30px; 
-  border: none; 
-  cursor: pointer; 
-  border-radius: 4px; 
-  font-size: 18px; 
-  font-weight: bold; 
-  text-transform: uppercase; 
-  letter-spacing: 1px; 
-  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+.company-header {
+  margin-bottom: 20px;
 }
 
-.proceed-button:not(:disabled):hover {
-  background-color: #006680; 
-  transform: translateY(-2px); 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+.company-header h1 {
+  color: #000; 
 }
 
-.proceed-button:disabled {
-  background-color: #cccccc; 
-  color: #666666; 
-  cursor: not-allowed; 
-  box-shadow: none; 
+.company-header p {
+  color: #666;
+}
+
+.company-input-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.company-input-form .company-input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #333;
+  border-radius: 20px;
+  width: 300px;
+}
+
+.company-input-form .submit-button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: #FF5733;
+  color: white;
+  cursor: pointer;
+}
+
+.company-input-form .submit-button:hover {
+  background-color: #C4421A;
 }
