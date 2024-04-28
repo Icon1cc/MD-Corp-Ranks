@@ -1,10 +1,15 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   height: 100%;
   font-family: Arial, sans-serif;
-  background-color: white;
+  background-image: linear-gradient(to bottom,
+      #003EAE 0%,
+      #4A7AF6 98%,
+      #0D4AE7 99%,
+      #072E93 100%);
 }
 
 #root {
@@ -12,20 +17,24 @@ body, html {
   justify-content: center;
   align-items: center;
   height: 100%;
-  flex-direction: column;
+  width: 100%;
 }
 
 .company-input-container {
   text-align: center;
   width: 100%;
-}
-
-.company-header {
-  margin-bottom: 20px;
+  max-width: 800px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: auto;
+  background-color: white;
 }
 
 .company-header h1 {
-  color: #000; 
+  color: black;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: xx-large;
 }
 
 .company-header p {
@@ -45,17 +54,22 @@ body, html {
   border: 2px solid #333;
   border-radius: 20px;
   width: 300px;
+  color: black;
+  background-color: #fff;
 }
 
 .company-input-form .submit-button {
   padding: 10px 20px;
   border-radius: 20px;
   border: none;
-  background-color: #FF5733;
+  background-color: lightblue;
   color: white;
   cursor: pointer;
+  width: 100%;
+  max-width: 150px;
+  margin: 0 auto;
 }
 
 .company-input-form .submit-button:hover {
-  background-color: #C4421A;
+  background-color: blue;
 }

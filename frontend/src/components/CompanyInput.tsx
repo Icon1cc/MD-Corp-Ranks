@@ -1,20 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash';
 import '../styles/App.css';
 
 interface CompanyInputProps {
   onCompanyNameSubmit: (companyName: string) => Promise<void>;
+  onCompanyNameChange: (companyName: string) => void;
 }
 
-const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit }) => {
+const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onCompanyNameChange }) => {
   const [companyName, setCompanyName] = useState('');
 
+  // Debounced function for submitting the company name
   const debouncedSubmit = debounce((name: string) => {
-    onCompanyNameSubmit(name).then(() => setCompanyName(''));
+    if (name.trim() !== '') {
+      onCompanyNameSubmit(name.trim()).then(() => setCompanyName(''));
+    }
   }, 500);
 
+  // Debounced function for temporary content
+  const debouncedOnChange = useCallback(debounce((name: string) => {
+    onCompanyNameChange(name);
+  }, 500), [onCompanyNameChange]);
+
+  useEffect(() => {
+    return () => {
+      debouncedOnChange.cancel();
+      debouncedSubmit.cancel();
+    };
+  }, [debouncedOnChange, debouncedSubmit]);
+
   const handleCompanyNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCompanyName(event.target.value);
+    const name = event.target.value;
+    setCompanyName(name);
+    debouncedOnChange(name);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

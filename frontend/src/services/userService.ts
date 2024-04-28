@@ -40,7 +40,34 @@ const getTotalScore = async (): Promise<string> => {
   }
 };
 
+export const sendFarewell = async (): Promise<boolean> => {
+  try {
+    const response = await fetch(`${backendUrlAndPort}/api/farewells`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Error during farewell:', error);
+    return false;
+  }
+};
+
+export const setupBeforeUnloadListener = () => {
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = '';
+    sendFarewell();
+  };
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+};
+
 export default {
   checkUserStatus,
   getTotalScore,
+  sendFarewell,
+  setupBeforeUnloadListener,
 };
