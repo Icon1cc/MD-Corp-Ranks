@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
+import WelcomeHeader from './WelcomeHeader';
 import '../styles/App.css';
 
 interface CompanyInputProps {
@@ -10,24 +11,10 @@ interface CompanyInputProps {
 const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onCompanyNameChange }) => {
   const [companyName, setCompanyName] = useState('');
 
-  // Debounced function for submitting the company name
-  const debouncedSubmit = debounce((name: string) => {
-    if (name.trim() !== '') {
-      onCompanyNameSubmit(name.trim()).then(() => setCompanyName(''));
-    }
-  }, 500);
-
   // Debounced function for temporary content
   const debouncedOnChange = useCallback(debounce((name: string) => {
     onCompanyNameChange(name);
   }, 500), [onCompanyNameChange]);
-
-  useEffect(() => {
-    return () => {
-      debouncedOnChange.cancel();
-      debouncedSubmit.cancel();
-    };
-  }, [debouncedOnChange, debouncedSubmit]);
 
   const handleCompanyNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
@@ -37,16 +24,21 @@ const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onComp
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    debouncedSubmit(companyName);
+    if (companyName.trim() !== '') {
+      onCompanyNameSubmit(companyName.trim()).then(() => setCompanyName(''));
+    }
   };
+
+  // Cleanup useEffect for debouncedOnChange
+  useEffect(() => {
+    return () => {
+      debouncedOnChange.cancel();
+    };
+  }, [debouncedOnChange]);
 
   return (
     <div className="company-input-container">
-      <header className="company-header">
-        <h1>JobInsights.com</h1>
-        <p>Welcome to JobInsights.com</p>
-        <p>To begin, please enter your company name and click on submit.</p>
-      </header>
+      <WelcomeHeader />
       <form onSubmit={handleSubmit} className="company-input-form">
         <input
           className="company-input"

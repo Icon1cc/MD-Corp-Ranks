@@ -12,6 +12,10 @@ const Home: React.FC = () => {
     const [showCompanyInput, setShowCompanyInput] = useState<boolean>(false);
     const navigate = useNavigate();
 
+    const handleCompanyNameChange = (companyName: string) => {
+        console.log('Current company name:', companyName);
+    };
+
     useEffect(() => {
         const fetchUserStatus = async () => {
             setLoading(true);
@@ -42,7 +46,10 @@ const Home: React.FC = () => {
             {error && <div className="error-message">{error}</div>}
             {loading && <Loader />}
             {!loading && showCompanyInput &&
-                <CompanyInput onCompanyNameSubmit={handleCompanySubmit} />} {/* Corrected prop name */}
+                <CompanyInput
+                    onCompanyNameSubmit={handleCompanySubmit}
+                    onCompanyNameChange={handleCompanyNameChange}
+                />}
             {!loading && !showCompanyInput &&
                 <div>Please leave your email or navigate to the appropriate route.</div>}
         </div>
