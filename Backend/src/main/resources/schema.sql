@@ -1,14 +1,14 @@
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS client (
     "UserID" UUID PRIMARY KEY,
     "RegistrationTime" TIMESTAMP NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS user_company (
+CREATE TABLE IF NOT EXISTS company_name (
     "UserID" UUID NOT NULL,
     "RegistrationTime" TIMESTAMP NOT NULL,
     "CompanyName" VARCHAR(100) NOT NULL,
     PRIMARY KEY ("UserID", "RegistrationTime"),
-    FOREIGN KEY ("UserID") REFERENCES "user"("UserID")
+    FOREIGN KEY ("UserID") REFERENCES "client"("UserID")
 );
 
 CREATE TABLE IF NOT EXISTS question (
@@ -26,20 +26,20 @@ CREATE TABLE IF NOT EXISTS question_rating (
     "Rating" INT NOT NULL,
     "Timestamp" TIMESTAMP NOT NULL,
     PRIMARY KEY ("UserID", "Timestamp"),
-    FOREIGN KEY ("UserID") REFERENCES "user"("UserID"),
+    FOREIGN KEY ("UserID") REFERENCES "client"("UserID"),
     FOREIGN KEY ("QuestionID") REFERENCES "question"("ID")
 );
 
-CREATE TABLE IF NOT EXISTS user_farewell (
+CREATE TABLE IF NOT EXISTS page_exit (
     "UserID" UUID NOT NULL,
     "Timestamp" TIMESTAMP NOT NULL,
     PRIMARY KEY ("UserID", "Timestamp"),
-    FOREIGN KEY ("UserID") REFERENCES "user"("UserID")
+    FOREIGN KEY ("UserID") REFERENCES "client"("UserID")
 );
 
 CREATE TABLE IF NOT EXISTS email_subscription (
     "UserID" UUID PRIMARY KEY,
     "Email" VARCHAR(255) NOT NULL,
     "SubscribedOn" TIMESTAMP NOT NULL,
-    FOREIGN KEY ("UserID") REFERENCES "user"("UserID")
+    FOREIGN KEY ("UserID") REFERENCES "client"("UserID")
 );
