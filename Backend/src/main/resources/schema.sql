@@ -1,0 +1,5 @@
+
+CREATE TABLE IF NOT EXISTS "user" (
+    "UserID" UUID PRIMARY KEY,
+    "RegistrationTime" TIMESTAMP NOT NULL
+);
