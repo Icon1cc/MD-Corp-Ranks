@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
 import questionService from '../services/questionService';
 import '../styles/reviewWizard.css';
+import WelcomeHeader from './WelcomeHeader';
 
 type Question = {
   id: number;
@@ -14,7 +15,7 @@ const ReviewWizard: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [rating, setRating] = useState(0); 
+  const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const navigate = useNavigate();
 
@@ -33,8 +34,8 @@ const ReviewWizard: React.FC = () => {
     loadQuestions();
   }, []);
 
-  const handleRating = async (rate: number) => {  
-    setRating(rate);  
+  const handleRating = async (rate: number) => {
+    setRating(rate);
     const currentQuestion = questions[currentQuestionIndex];
     await fetch(`/api/questions/${currentQuestion.id}/ratings`, {
       method: 'POST',
@@ -56,7 +57,7 @@ const ReviewWizard: React.FC = () => {
     return <Loader />;
   }
 
-  const handleMouseOver = (rate: number) => { 
+  const handleMouseOver = (rate: number) => {
     setHoverRating(rate);
   };
 
@@ -69,20 +70,24 @@ const ReviewWizard: React.FC = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="review-container">
-      <div className="question-card">
-        <h2>{currentQuestion.title}</h2>
-        <p>{currentQuestion.subtitle}</p>
-        <div className="star-rating">
-          {[1, 2, 3, 4, 5].map(index => (
-            <span
-              key={index}
-              className={`star${index <= (hoverRating || rating) ? ' filled' : ''}`}
-              onClick={() => handleRating(index)}
-              onMouseOver={() => handleMouseOver(index)}
-              onMouseLeave={handleMouseLeave}
-            >&#9733;</span>
-          ))}
+    <div id="root">
+      <WelcomeHeader />
+      <div className="review-container">
+        <div className="question-card">
+          <h1>Welcome to the Review Section</h1>
+          <h2>{currentQuestion.title}</h2>
+          <p>{currentQuestion.subtitle}</p>
+          <div className="star-rating">
+            {[1, 2, 3, 4, 5].map(index => (
+              <span
+                key={index}
+                className={`star${index <= (hoverRating || rating) ? ' filled' : ''}`}
+                onClick={() => handleRating(index)}
+                onMouseOver={() => handleMouseOver(index)}
+                onMouseLeave={handleMouseLeave}
+              >&#9733;</span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
