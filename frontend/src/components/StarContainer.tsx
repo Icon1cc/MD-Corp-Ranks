@@ -26,7 +26,7 @@ const StarContainer: React.FC<StarContainerProps> = ({ rating, handleRating }) =
                     rating={rating}
                     hoverRating={hoverRating}
                     handleRating={handleRating}
-                    handleMouseOver={handleMouseOver}
+                    handleMouseOver={() => handleMouseOver(index)}
                     handleMouseLeave={handleMouseLeave}
                 />
             ))}

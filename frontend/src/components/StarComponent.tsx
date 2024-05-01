@@ -5,16 +5,15 @@ type StarComponentProps = {
     rating: number;
     hoverRating: number;
     handleRating: (index: number) => void;
-    handleMouseOver: (index: number) => void;
+    handleMouseOver: () => void;
     handleMouseLeave: () => void;
 };
 
 const StarComponent: React.FC<StarComponentProps> = ({ index, rating, hoverRating, handleRating, handleMouseOver, handleMouseLeave }) => (
     <span
-        key={index}
         className={`star${index <= (hoverRating || rating) ? ' filled' : ''}`}
         onClick={() => handleRating(index)}
-        onMouseOver={() => handleMouseOver(index)}
+        onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
     >
         &#9733;
