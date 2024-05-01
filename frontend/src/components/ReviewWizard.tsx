@@ -74,6 +74,9 @@ const ReviewWizard: React.FC = () => {
       <WelcomeHeader />
       <div className="review-container">
         <div className="question-card">
+          <div className="progress-circle">
+            {currentQuestionIndex + 1}/{questions.length}
+          </div>
           <h1>Welcome to the Review Section</h1>
           <h2>{currentQuestion.title}</h2>
           <p>{currentQuestion.subtitle}</p>
@@ -88,6 +91,7 @@ const ReviewWizard: React.FC = () => {
               >&#9733;</span>
             ))}
           </div>
+          <p className="review-note">Once the review is submitted for this question, it cannot be changed.</p>
         </div>
       </div>
     </div>

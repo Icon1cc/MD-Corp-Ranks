@@ -27,49 +27,48 @@
 
 // This mock simulates fetching questions from an API
 const mockQuestions = {
-    questions: [
-      {
-        id: 1,
-        title: "Company goals",
-        subtitle: "The company has clear long-term objectives",
-      },
-      {
-        id: 2,
-        title: "Work Environment",
-        subtitle: "The work setting promotes employee productivity",
-      },
-      {
-        id: 3,
-        title: "Management Support",
-        subtitle: "Managers regularly support and review employee work",
-      },
-      {
-        id: 4,
-        title: "Employee Benefits",
-        subtitle: "The company offers competitive employee benefits",
-      },
-      {
-        id: 5,
-        title: "Career Development",
-        subtitle: "There are ample opportunities for personal growth and career development",
+  questions: [
+    {
+      id: 1,
+      title: "Company goals",
+      subtitle: "The company has clear long-term objectives",
+    },
+    {
+      id: 2,
+      title: "Work Environment",
+      subtitle: "The work setting promotes employee productivity",
+    },
+    {
+      id: 3,
+      title: "Management Support",
+      subtitle: "Managers regularly support and review employee work",
+    },
+    {
+      id: 4,
+      title: "Employee Benefits",
+      subtitle: "The company offers competitive employee benefits",
+    },
+    {
+      id: 5,
+      title: "Career Development",
+      subtitle: "There are ample opportunities for personal growth and career development",
+    }
+  ]
+};
+
+// Simulate network delay
+export const fetchQuestions = (): Promise<{ questions: { id: number; title: string; subtitle: string }[] }> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() < 0.9) {
+        resolve(mockQuestions);
+      } else {
+        reject("Failed to fetch questions: Network error");
       }
-    ]
-  };
-  
-  // Simulate network delay
-  export const fetchQuestions = (): Promise<{ questions: { id: number; title: string; subtitle: string }[] }> => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (Math.random() < 0.9) { 
-          resolve(mockQuestions);
-        } else {
-          reject("Failed to fetch questions: Network error");
-        }
-      }, 1000); 
-    });
-  };
-  
-  export default {
-    fetchQuestions
-  };
-  
+    }, 1000);
+  });
+};
+
+export default {
+  fetchQuestions
+};

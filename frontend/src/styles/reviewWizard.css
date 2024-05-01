@@ -32,6 +32,29 @@
     font-size: 60px;
   }
 
+  .progress-circle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .review-note {
+    font-size: 16px;
+    color: rgb(166, 0, 0);
+    margin-top: 20px;
+    text-align: center;
+  }
+
   .star-rating {
     display: flex;
     justify-content: center;
