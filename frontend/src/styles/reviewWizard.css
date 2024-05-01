@@ -1,0 +1,34 @@
+.review-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .question-card {
+    background: white;
+    border-radius: 10px;;
+    padding: 30px;
+    border: 2px solid black;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    text-align: center;
+    color: #333;
+    width: 300px;
+  }
+  
+  .star-rating {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .star {
+    font-size: 25px;
+    cursor: pointer;
+    color: #ccc;
+  }
+  
+  .star.filled {
+    color: gold;
+  }
+  

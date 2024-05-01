@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
+import questionService from '../services/questionService';
+import '../styles/reviewWizard.css';
 
 type Question = {
   id: number;
@@ -8,31 +10,40 @@ type Question = {
   subtitle: string;
 };
 
-const ReviewWizard = () => {
+const ReviewWizard: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [rating, setRating] = useState(0); 
+  const [hoverRating, setHoverRating] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/questions')
-      .then(res => res.json())
-      .then(data => {
-        setQuestions(data.questions); 
+    const loadQuestions = async () => {
+      try {
+        const data = await questionService.fetchQuestions();
+        setQuestions(data.questions);
         setLoading(false);
-      });
+      } catch (error) {
+        console.error('Error loading questions:', error);
+        setLoading(false);
+      }
+    };
+
+    loadQuestions();
   }, []);
 
-  const handleRating = async (rating: number) => {
+  const handleRating = async (rate: number) => {  
+    setRating(rate);  
     const currentQuestion = questions[currentQuestionIndex];
     await fetch(`/api/questions/${currentQuestion.id}/ratings`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ rating }),
+      body: JSON.stringify({ rating: rate }),
     });
-    
+
     const nextQuestionIndex = currentQuestionIndex + 1;
     if (nextQuestionIndex < questions.length) {
       setCurrentQuestionIndex(nextQuestionIndex);
@@ -45,14 +56,35 @@ const ReviewWizard = () => {
     return <Loader />;
   }
 
+  const handleMouseOver = (rate: number) => { 
+    setHoverRating(rate);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverRating(0);
+  };
+
+  if (questions.length === 0) return <Loader />;
+
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div>
-      <h2>{currentQuestion.title}</h2>
-      <p>{currentQuestion.subtitle}</p>
-      {/* Here you should have your rating component instead of a button */}
-      <button onClick={() => handleRating(5)}>Rate 5 Stars</button>
+    <div className="review-container">
+      <div className="question-card">
+        <h2>{currentQuestion.title}</h2>
+        <p>{currentQuestion.subtitle}</p>
+        <div className="star-rating">
+          {[1, 2, 3, 4, 5].map(index => (
+            <span
+              key={index}
+              className={`star${index <= (hoverRating || rating) ? ' filled' : ''}`}
+              onClick={() => handleRating(index)}
+              onMouseOver={() => handleMouseOver(index)}
+              onMouseLeave={handleMouseLeave}
+            >&#9733;</span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
