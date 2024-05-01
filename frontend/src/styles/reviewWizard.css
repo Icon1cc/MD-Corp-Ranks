@@ -38,12 +38,13 @@
     right: 20px;
     width: 70px;
     height: 70px;
-    background-color: #fff;
+    background-color: #306a79;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: black;
+    color: white;
+    border-color: black;
     font-size: 24px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
