@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Loader from './Loader';
+import Loader from '../components/Loader';
 import questionService from '../services/questionService';
 import '../styles/reviewWizard.css';
-import WelcomeHeader from './WelcomeHeader';
-import StarContainer from './StarContainer';
+import WelcomeHeader from '../components/WelcomeHeader';
+import StarContainer from '../components/StarContainer';
 
 type Question = {
     id: number;
