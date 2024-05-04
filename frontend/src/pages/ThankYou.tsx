@@ -2,15 +2,37 @@ import React, { useState, useEffect } from 'react';
 import '../styles/ThankYou.css';
 import { subscribeToEmail } from '../services/reviewService';
 import userService from '../services/userService';
-import WelcomeHeader from '../components/WelcomeHeader'
+import WelcomeHeader from '../components/WelcomeHeader';
 
 const ThankYou: React.FC = () => {
     const [email, setEmail] = useState('');
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [totalScore, setTotalScore] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
     const isButtonDisabled = !isValidEmail(email) || showSuccessMessage;
+
+    useEffect(() => {
+        const fetchTotalScore = async () => {
+            setIsLoading(true);
+            try {
+                const score = await userService.getTotalScore();
+                setTotalScore(score);
+            } catch (error) {
+                console.error('Error getting total score:', error);
+                setTotalScore('Unavailable');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchTotalScore();
+
+        // Setup the beforeunload listener
+        const cleanup = userService.setupBeforeUnloadListener();
+        return () => cleanup();  // Cleanup the listener when component unmounts
+    }, []);
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -27,33 +49,24 @@ const ThankYou: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchTotalScore = async () => {
-            const score = await userService.getTotalScore();
-            setTotalScore(score);
-        };
-
-        fetchTotalScore();
-    }, []);
-
     return (
         <div className="thank-you-container">
             <div id="root">
                 <WelcomeHeader />
                 <div className="thank-you-modal">
-                    {totalScore !== null ? (
+                    {isLoading ? (
+                        <div className="loading-score">Loading your total score...</div>
+                    ) : (
                         <div className="total-score-display">
-                            <h2 className="thank-you-text">Grazie per la tua recensione!</h2>
+                            <h2 className="thank-you-text">Thank you for your review!</h2>
                             <p className="total-score-text">
-                                Il punteggio totale della tua valutazione è: {totalScore}
+                                Your total evaluation score is: {totalScore}
                             </p>
                         </div>
-                    ) : (
-                        <div className="loading-score">Caricamento del punteggio totale...</div>
                     )}
                     <form onSubmit={handleSubmit}>
                         <div className="email-section">
-                            <p className="interest-text">Se sei interessato a seguire la community lascia la tua email!</p>
+                            <p className="interest-text">If you are interested in following the community, please leave your email!</p>
                             <input
                                 type="email"
                                 value={email}
@@ -66,10 +79,10 @@ const ThankYou: React.FC = () => {
                                 className="submit-button"
                                 disabled={isButtonDisabled}
                             >
-                                Invia
+                                Subscribe
                             </button>
                         </div>
-                        {showSuccessMessage && <div className="success-message">Il tuo indirizzo email è stato iscritto con successo!</div>}
+                        {showSuccessMessage && <div className="success-message">Your email has been successfully subscribed!</div>}
                     </form>
                 </div>
             </div>
