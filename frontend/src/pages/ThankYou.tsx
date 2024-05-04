@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ThankYou.css';
 import { subscribeToEmail } from '../services/reviewService';
-import userService from '../services/userService'; 
+import userService from '../services/userService';
+import WelcomeHeader from '../components/WelcomeHeader'
 
 const ThankYou: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -29,7 +30,7 @@ const ThankYou: React.FC = () => {
     useEffect(() => {
         const fetchTotalScore = async () => {
             const score = await userService.getTotalScore();
-            setTotalScore(score); 
+            setTotalScore(score);
         };
 
         fetchTotalScore();
@@ -37,40 +38,40 @@ const ThankYou: React.FC = () => {
 
     return (
         <div className="thank-you-container">
-            <header className="header">
-                <h1>JobSecrets.com</h1>
-            </header>
-            <div className="thank-you-modal">
-                {totalScore !== null ? (
-                    <div className="total-score-display">
-                        <h2 className="thank-you-text">Grazie per la tua recensione!</h2>
-                        <p className="total-score-text">
-                            Il punteggio totale della tua valutazione è: {totalScore}
-                        </p>
-                    </div>
-                ) : (
-                    <div className="loading-score">Caricamento del punteggio totale...</div>
-                )}
-                <form onSubmit={handleSubmit}>
-                    <div className="email-section">
-                        <p className="interest-text">Se sei interessato a seguire la community lascia la tua email!</p>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            placeholder="user@example.com"
-                            className="email-input"
-                        />
-                        <button
-                            type="submit"
-                            className="submit-button"
-                            disabled={isButtonDisabled}
-                        >
-                            Invia
-                        </button>
-                    </div>
-                    {showSuccessMessage && <div className="success-message">Il tuo indirizzo email è stato iscritto con successo!</div>}
-                </form>
+            <div id="root">
+                <WelcomeHeader />
+                <div className="thank-you-modal">
+                    {totalScore !== null ? (
+                        <div className="total-score-display">
+                            <h2 className="thank-you-text">Grazie per la tua recensione!</h2>
+                            <p className="total-score-text">
+                                Il punteggio totale della tua valutazione è: {totalScore}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="loading-score">Caricamento del punteggio totale...</div>
+                    )}
+                    <form onSubmit={handleSubmit}>
+                        <div className="email-section">
+                            <p className="interest-text">Se sei interessato a seguire la community lascia la tua email!</p>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                placeholder="user@example.com"
+                                className="email-input"
+                            />
+                            <button
+                                type="submit"
+                                className="submit-button"
+                                disabled={isButtonDisabled}
+                            >
+                                Invia
+                            </button>
+                        </div>
+                        {showSuccessMessage && <div className="success-message">Il tuo indirizzo email è stato iscritto con successo!</div>}
+                    </form>
+                </div>
             </div>
         </div>
     );
