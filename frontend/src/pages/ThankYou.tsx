@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import '../styles/ThankYou.css';
 import { subscribeToEmail } from '../services/reviewService';
 import userService from '../services/userService';
@@ -7,7 +9,7 @@ import WelcomeHeader from '../components/WelcomeHeader';
 const ThankYou: React.FC = () => {
     const [email, setEmail] = useState('');
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-    const [totalScore, setTotalScore] = useState<string | null>(null);
+    const [totalScore, setTotalScore] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
@@ -18,10 +20,13 @@ const ThankYou: React.FC = () => {
             setIsLoading(true);
             try {
                 const score = await userService.getTotalScore();
-                setTotalScore(score);
+                setTotalScore(parseFloat(score));
+                if (isNaN(parseFloat(score))) {
+                    throw new Error('Invalid score value');
+                }
             } catch (error) {
                 console.error('Error getting total score:', error);
-                setTotalScore('Unavailable');
+                setTotalScore(null);
             } finally {
                 setIsLoading(false);
             }
@@ -49,20 +54,38 @@ const ThankYou: React.FC = () => {
         }
     };
 
+    const getColor = (score: number) => {
+        if (score >= 90) return '#2196F3'; // blue
+        if (score >= 75) return '#4CAF50'; // green
+        if (score >= 50) return '#FFEB3B'; // yellow
+        if (score >= 25) return '#FF9800'; // orange
+        return '#F44336'; // red
+    };
+
     return (
         <div className="thank-you-container">
             <div id="root">
                 <WelcomeHeader />
                 <div className="thank-you-modal">
+                    <h2 className="thank-you-text">Thank you for your review!</h2>
                     {isLoading ? (
-                        <div className="loading-score">Loading your total score...</div>
-                    ) : (
-                        <div className="total-score-display">
-                            <h2 className="thank-you-text">Thank you for your review!</h2>
-                            <p className="total-score-text">
-                                Your total evaluation score is: {totalScore}
-                            </p>
+                        <div>Loading your total score...</div>
+                    ) : totalScore !== null ? (
+                        <div className="score-container">
+                            <p className="score-label">Evaluation score:</p>
+                            <div style={{ width: 200, height: 200 }}>
+                                <CircularProgressbar
+                                    value={totalScore}
+                                    text={`${totalScore}%`}
+                                    styles={buildStyles({
+                                        pathColor: getColor(totalScore),
+                                        textColor: getColor(totalScore),
+                                    })}
+                                />
+                            </div>
                         </div>
+                    ) : (
+                        <p>Your score is unavailable.</p>
                     )}
                     <form onSubmit={handleSubmit}>
                         <div className="email-section">
