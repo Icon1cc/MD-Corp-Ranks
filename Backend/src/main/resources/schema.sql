@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS question_rating (
 
 CREATE TABLE IF NOT EXISTS page_exit (
     "UserID" UUID NOT NULL,
-    "Timestamp" TIMESTAMP NOT NULL,
-    PRIMARY KEY ("UserID", "Timestamp"),
+    "ExitTime" TIMESTAMP NOT NULL,
+    PRIMARY KEY ("UserID", "ExitTime"),
     FOREIGN KEY ("UserID") REFERENCES "client"("UserID")
 );
 
@@ -42,4 +42,10 @@ CREATE TABLE IF NOT EXISTS email_subscription (
     "Email" VARCHAR(255) NOT NULL,
     "SubscribedOn" TIMESTAMP NOT NULL,
     FOREIGN KEY ("UserID") REFERENCES "client"("UserID")
+);
+
+CREATE TABLE IF NOT EXISTS review (
+    "UserID" UUID PRIMARY KEY,
+    "ReviewTime" TIMESTAMP NOT NULL,
+    FOREIGN KEY ("UserID") REFERENCES "user"("UserID")
 );
