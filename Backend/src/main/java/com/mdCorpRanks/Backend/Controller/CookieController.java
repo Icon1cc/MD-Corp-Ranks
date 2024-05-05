@@ -4,9 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.mdCorpRanks.Backend.Model.EmailSubscriptionRequest;
-import com.mdCorpRanks.Backend.Model.UserResponseDTO;
-
 import com.mdCorpRanks.Backend.Service.*;
 import com.mdCorpRanks.Backend.Model.*;
 
@@ -27,6 +24,8 @@ public class CookieController {
     private final UserService userService;
     private final ReviewService reviewService; 
     private final EmailSubscriptionService emailSubscriptionService;
+    private final CompanyRegistrationService companyRegistrationService;
+
 
     @GetMapping("/register")
     public ResponseEntity<UserResponseDTO> registerOrIdentifyUser(HttpServletRequest request, HttpServletResponse response) {
@@ -77,6 +76,26 @@ public class CookieController {
             return ResponseEntity.ok(new ApiResponse("Email subscription successful."));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to subscribe to email. Please try again later."));
+        }
+    }
+
+    @PostMapping("/companies")
+    public ResponseEntity<ApiResponse> companyName(HttpServletRequest request, @RequestBody CompanyNameRequest nameRequest) {
+        UUID userId = extractUserIdFromCookies(request);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse("User identification failed. User ID not found in cookies."));
+        }
+    
+        String companyName = nameRequest.getCompanyName();
+        if (companyName == null || companyName.isEmpty()) {
+            return ResponseEntity.badRequest().body(new ApiResponse("Company Name is required."));
+        }
+    
+        try {
+            companyRegistrationService.registerCompanyName(userId, companyName);
+            return ResponseEntity.ok(new ApiResponse("Company name registered successfully."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to register company name. Please try again later."));
         }
     }
 
