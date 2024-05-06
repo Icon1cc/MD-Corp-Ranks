@@ -62,6 +62,6 @@ npm run build
 
 # Conclusion
 
-You've successfully set up a Vite, TypeScript, and React project. This boilerplate is now ready for development and production builds. Explore the provided links for additional resources and documentation to further enhance your application.
+You've successfully set up a Vite, TypeScript, and React project. This boilerplate is now ready for development and production builds. Explore the provided links for additional resources and documentation to further enhancement your application.
 
 Happy coding
