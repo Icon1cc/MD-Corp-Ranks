@@ -36,18 +36,21 @@ const ReviewWizard: React.FC = () => {
 
     const handleRating = async (rate: number) => {
         setRating(rate);
+    };
+    const handleSubmit = async () => {
         const currentQuestion = questions[currentQuestionIndex];
         await fetch(`/api/questions/${currentQuestion.id}/ratings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ rating: rate }),
+            body: JSON.stringify({ rating: rating }),
         });
 
         const nextQuestionIndex = currentQuestionIndex + 1;
         if (nextQuestionIndex < questions.length) {
             setCurrentQuestionIndex(nextQuestionIndex);
+            setRating(0);
         } else {
             navigate('/thank-you');
         }
@@ -70,6 +73,15 @@ const ReviewWizard: React.FC = () => {
                     <h2>{currentQuestion.title}</h2>
                     <p>{currentQuestion.subtitle}</p>
                     <StarContainer rating={rating} handleRating={handleRating} />
+                    <button
+                        className="review-input-form submit-button"
+                        disabled={rating === 0}
+                        onClick={handleSubmit}
+                        style={{ marginLeft: '20px' }}
+                    >
+                        Submit
+                    </button>
+
                     <p className="review-note">Once the review is submitted for this question, it cannot be changed.</p>
                 </div>
             </div>
