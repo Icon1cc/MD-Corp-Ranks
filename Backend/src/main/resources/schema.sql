@@ -47,5 +47,5 @@ CREATE TABLE IF NOT EXISTS email_subscription (
 CREATE TABLE IF NOT EXISTS review (
     "UserID" UUID PRIMARY KEY,
     "ReviewTime" TIMESTAMP NOT NULL,
-    FOREIGN KEY ("UserID") REFERENCES "user"("UserID")
+    FOREIGN KEY ("UserID") REFERENCES "client"("UserID")
 );
