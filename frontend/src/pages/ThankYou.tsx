@@ -6,6 +6,14 @@ import { subscribeToEmail } from '../services/reviewService';
 import userService from '../services/userService';
 import WelcomeHeader from '../components/WelcomeHeader';
 
+const getColor = (score: number) => {
+    if (score >= 90) return '#2196F3'; // blue
+    if (score >= 75) return '#4CAF50'; // green
+    if (score >= 50) return '#FFEB3B'; // yellow
+    if (score >= 25) return '#FF9800'; // orange
+    return '#F44336'; // red
+};
+
 const ThankYou: React.FC = () => {
     const [email, setEmail] = useState('');
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -34,9 +42,8 @@ const ThankYou: React.FC = () => {
 
         fetchTotalScore();
 
-        // Setup the beforeunload listener
         const cleanup = userService.setupBeforeUnloadListener();
-        return () => cleanup();  // Cleanup the listener when component unmounts
+        return () => cleanup();
     }, []);
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,14 +61,6 @@ const ThankYou: React.FC = () => {
         }
     };
 
-    const getColor = (score: number) => {
-        if (score >= 90) return '#2196F3'; // blue
-        if (score >= 75) return '#4CAF50'; // green
-        if (score >= 50) return '#FFEB3B'; // yellow
-        if (score >= 25) return '#FF9800'; // orange
-        return '#F44336'; // red
-    };
-
     return (
         <div className="thank-you-container">
             <div id="root">
@@ -73,7 +72,7 @@ const ThankYou: React.FC = () => {
                     ) : totalScore !== null ? (
                         <div className="score-container">
                             <p className="score-label">Evaluation score:</p>
-                            <div style={{ width: 200, height: 200 }}>
+                            <div style={{ width: 200, height: 200, margin: 'auto' }}>
                                 <CircularProgressbar
                                     value={totalScore}
                                     text={`${totalScore}%`}
