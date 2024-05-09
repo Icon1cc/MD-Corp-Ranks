@@ -5,6 +5,7 @@ import '../styles/ThankYou.css';
 import { subscribeToEmail } from '../services/reviewService';
 import userService from '../services/userService';
 import WelcomeHeader from '../components/WelcomeHeader';
+import { useNavigate } from 'react-router-dom';
 
 const getColor = (score: number) => {
     if (score >= 90) return '#2196F3'; // blue
@@ -19,6 +20,7 @@ const ThankYou: React.FC = () => {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [totalScore, setTotalScore] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
     const isButtonDisabled = !isValidEmail(email) || showSuccessMessage;
@@ -57,6 +59,9 @@ const ThankYou: React.FC = () => {
             if (subscribeResponse.success) {
                 setShowSuccessMessage(true);
                 setEmail('');
+                setTimeout(() => {
+                    navigate('/', { replace: true });
+                }, 2000);
             }
         }
     };
