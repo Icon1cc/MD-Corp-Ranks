@@ -21,6 +21,7 @@ const ThankYou: React.FC = () => {
     const [totalScore, setTotalScore] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const [countdown, setCountdown] = useState(5); 
 
     const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
     const isButtonDisabled = !isValidEmail(email) || showSuccessMessage;
@@ -48,6 +49,20 @@ const ThankYou: React.FC = () => {
         return () => cleanup();
     }, []);
 
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (showSuccessMessage) {
+            timer = setTimeout(() => {
+                setCountdown((prevCount) => prevCount - 1);
+            }, 1000);
+
+            if (countdown <= 0) {
+                navigate('/', { replace: true });
+            }
+        }
+        return () => clearTimeout(timer);
+    }, [showSuccessMessage, countdown, navigate]);
+
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
     };
@@ -59,9 +74,6 @@ const ThankYou: React.FC = () => {
             if (subscribeResponse.success) {
                 setShowSuccessMessage(true);
                 setEmail('');
-                setTimeout(() => {
-                    navigate('/', { replace: true });
-                }, 2000);
             }
         }
     };
@@ -109,7 +121,11 @@ const ThankYou: React.FC = () => {
                                 Subscribe
                             </button>
                         </div>
-                        {showSuccessMessage && <div className="success-message">Your email has been successfully subscribed!</div>}
+                        {showSuccessMessage && (
+                            <div className="success-message">
+                                Your email has been successfully subscribed! Redirecting to home page in {countdown} seconds...
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>
