@@ -87,3 +87,11 @@
       -1px 1px 0 #000,
       1px 1px 0 #000;
   }
+
+  .review-input-form .submit-button {
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    background-color: #306a79;
+  }
