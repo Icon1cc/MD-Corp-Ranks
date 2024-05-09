@@ -15,7 +15,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST})
 public class UserManagementController {
 
     private final EmailSubscriptionService emailSubscriptionService;
