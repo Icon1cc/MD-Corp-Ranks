@@ -45,6 +45,7 @@ const ReviewWizard: React.FC = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ rating: rating }),
+            credentials: 'include'
         });
 
         const nextQuestionIndex = currentQuestionIndex + 1;
