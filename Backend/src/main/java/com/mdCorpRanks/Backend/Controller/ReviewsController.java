@@ -28,7 +28,7 @@ public class ReviewsController {
         }
     
         try {
-            double averageScore = reviewService.calculateWeightedAverage(userId);
+            int averageScore = reviewService.calculateWeightedAverage(userId);
             return ResponseEntity.ok(new ApiResponse("Total Score: " + String.format("%.1f", averageScore)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to retrieve average score."));

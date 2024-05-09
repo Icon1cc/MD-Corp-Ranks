@@ -24,7 +24,7 @@ public class ReviewService {
         jdbcTemplate.update(sql, userId, submissionTime);
     }
 
-    public double calculateWeightedAverage(UUID userId) {
+    public int calculateWeightedAverage(UUID userId) {
         String sql = "SELECT \"UserID\", SUM(\"Rating\" * \"Weight\") / SUM(\"Weight\") AS WeightedAverage" +
                      "FROM " +
                      "LatestRating" +
@@ -32,7 +32,7 @@ public class ReviewService {
                      "\"UserID\" = ?" + 
                      "GROUP BY" +
                      "\"UserID\";";
-        return jdbcTemplate.queryForObject(sql, Double.class, userId);
+        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
     }
 }
 
