@@ -26,7 +26,7 @@ const ThankYou: React.FC = () => {
                 <ScoreContainer />
                 {!showSuccessMessage ? (
                     <EmailSubscriptionContainer
-                        emailSubmissionHandler={handleEmailSubmissionSuccess}
+                        onSubmissionSuccess={handleEmailSubmissionSuccess}
                     />
                 ) : (
                     <SuccessFeedbackCountdown onTimeout={handleTimeoutCompletion} />
