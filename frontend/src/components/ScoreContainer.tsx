@@ -8,11 +8,11 @@ const ScoreContainer: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const getColor = (score: number) => {
-        if (score >= 90) return '#2196F3';
-        if (score >= 75) return '#4CAF50';
-        if (score >= 50) return '#FFEB3B';
-        if (score >= 25) return '#FF9800';
-        return '#F44336';
+        if (score >= 90) return '#2196F3'; // blue
+        if (score >= 75) return '#4CAF50'; // green
+        if (score >= 50) return '#FFEB3B'; // yellow
+        if (score >= 25) return '#FF9800'; // orange
+        return '#F44336'; // red
     };
 
     useEffect(() => {
@@ -20,7 +20,11 @@ const ScoreContainer: React.FC = () => {
             setIsLoading(true);
             try {
                 const score = await userService.getTotalScore();
-                setTotalScore(parseFloat(score));
+                const numericScore = parseFloat(score);
+                if (isNaN(numericScore)) {
+                    throw new Error('Invalid score value');
+                }
+                setTotalScore(numericScore);
             } catch (error) {
                 console.error('Error getting total score:', error);
                 setTotalScore(null);

@@ -7,13 +7,11 @@ import EmailSubscriptionContainer from '../components/EmailSubscriptionContainer
 import SuccessFeedbackCountdown from '../components/SuccessFeedbackCountdown';
 
 const ThankYou: React.FC = () => {
-    const [email, setEmail] = useState('');
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const navigate = useNavigate();
 
     const handleEmailSubmissionSuccess = () => {
         setShowSuccessMessage(true);
-        setEmail('');
     };
 
     const handleTimeoutCompletion = () => {
@@ -28,9 +26,7 @@ const ThankYou: React.FC = () => {
                 <ScoreContainer />
                 {!showSuccessMessage ? (
                     <EmailSubscriptionContainer
-                        email={email}
-                        setEmail={setEmail}
-                        onSubmissionSuccess={handleEmailSubmissionSuccess}
+                        emailSubmissionHandler={handleEmailSubmissionSuccess}
                     />
                 ) : (
                     <SuccessFeedbackCountdown onTimeout={handleTimeoutCompletion} />

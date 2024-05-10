@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { subscribeToEmail } from '../services/reviewService';
 
-const EmailSubscriptionContainer: React.FC<{ email: string; setEmail: (email: string) => void; onSubmissionSuccess: () => void; }> = ({ email, setEmail, onSubmissionSuccess }) => {
+interface EmailSubscriptionContainerProps {
+    emailSubmissionHandler: (email: string) => void;
+}
+
+const EmailSubscriptionContainer: React.FC<EmailSubscriptionContainerProps> = ({ emailSubmissionHandler }) => {
+    const [email, setEmail] = useState('');
     const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
     const isButtonDisabled = !isValidEmail(email);
 
@@ -14,7 +19,8 @@ const EmailSubscriptionContainer: React.FC<{ email: string; setEmail: (email: st
         if (isValidEmail(email)) {
             const subscribeResponse = await subscribeToEmail(email);
             if (subscribeResponse.success) {
-                onSubmissionSuccess();
+                emailSubmissionHandler(email);
+                setEmail('');
             }
         }
     };
