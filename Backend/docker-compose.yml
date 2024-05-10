@@ -11,8 +11,3 @@ services:
       POSTGRES_DB: mvp2db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: changemeinprod!
-    volumes:
-      - mvp2_data:/var/lib/postgresql/data
-
-volumes:
-  mvp2_data:
