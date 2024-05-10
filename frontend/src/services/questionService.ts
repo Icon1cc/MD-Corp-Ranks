@@ -1,32 +1,32 @@
-// const backendUrlAndPort = "http://localhost:8080";
+const backendUrlAndPort = "http://localhost:8080";
 
-// export const fetchQuestions = async (): Promise<{ questions: { id: number; title: string; subtitle: string }[] }> => {
-//   try {
-//     const response = await fetch(`${backendUrlAndPort}/api/questions`, {
-//       method: 'GET',
-//       credentials: 'include',
-//     });
+export const fetchQuestions = async (): Promise<{ questions: { id: number; title: string; subtitle: string }[] }> => {
+  try {
+    const response = await fetch(`${backendUrlAndPort}/api/questions`, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
-//     if (!response.ok) {
-//       console.error('Failed to fetch questions with status:', response.status);
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
+    if (!response.ok) {
+      console.error('Failed to fetch questions with status:', response.status);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-//     const data = await response.json();
-//     return data; 
-//   } catch (error) {
-//     console.error('Error fetching questions:', error);
-//     throw error;
-//   }
-// };
+    const data = await response.json();
+    return data; 
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    throw error;
+  }
+};
 
-// export default {
-//   fetchQuestions
-// };
+export default {
+  fetchQuestions
+};
 
 
 // This mock simulates fetching questions from an API
-const mockQuestions = {
+/* const mockQuestions = {
   questions: [
     {
       id: 1,
@@ -54,10 +54,10 @@ const mockQuestions = {
       subtitle: "There are ample opportunities for personal growth and career development",
     }
   ]
-};
+}; */
 
 // Simulate network delay
-export const fetchQuestions = (): Promise<{ questions: { id: number; title: string; subtitle: string }[] }> => {
+/* export const fetchQuestions = (): Promise<{ questions: { id: number; title: string; subtitle: string }[] }> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (Math.random() < 0.9) {
@@ -71,4 +71,4 @@ export const fetchQuestions = (): Promise<{ questions: { id: number; title: stri
 
 export default {
   fetchQuestions
-};
+}; */
