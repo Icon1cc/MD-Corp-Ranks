@@ -70,7 +70,7 @@ const ReviewWizard: React.FC = () => {
                     <div className="progress-circle">
                         {currentQuestionIndex + 1}/{questions.length}
                     </div>
-                    <h1>Welcome to the Review Section</h1>
+                    <h1>Benvenuti nella sezione delle recensioni</h1>
                     <h2>{currentQuestion.title}</h2>
                     <p>{currentQuestion.subtitle}</p>
                     <StarContainer rating={rating} handleRating={handleRating} />
@@ -80,10 +80,10 @@ const ReviewWizard: React.FC = () => {
                         onClick={handleSubmit}
                         style={{ marginLeft: '20px' }}
                     >
-                        Submit
+                        Invia
                     </button>
 
-                    <p className="review-note">Once the review is submitted for this question, it cannot be changed.</p>
+                    <p className="review-note">Una volta inviata la revisione per questa domanda, non è più possibile modificarla.</p>
                 </div>
             </div>
         </div>

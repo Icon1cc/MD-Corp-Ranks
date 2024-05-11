@@ -19,7 +19,7 @@ const SuccessFeedbackCountdown: React.FC<{ onTimeout: () => void; }> = ({ onTime
 
     return (
         <div className="success-message">
-            Your email has been successfully subscribed! Redirecting to home page in {countdown} seconds...
+            La tua email è stata sottoscritta con successo! Reindirizzamento alla pagina iniziale tra {countdown} secondi...
         </div>
     );
 };

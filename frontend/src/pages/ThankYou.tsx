@@ -22,7 +22,7 @@ const ThankYou: React.FC = () => {
         <div className="thank-you-container">
             <WelcomeHeader />
             <div className="thank-you-modal">
-                <h2 className="thank-you-text">Thank you for your review!</h2>
+                <h2 className="thank-you-text">Grazie per la tua recensione!</h2>
                 <ScoreContainer />
                 {!showSuccessMessage ? (
                     <EmailSubscriptionContainer
