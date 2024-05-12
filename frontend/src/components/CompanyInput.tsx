@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
 import WelcomeHeader from './WelcomeHeader';
+import { useNavigate } from 'react-router-dom';
+import { submitCompany } from '../services/companyService';
 import '../styles/App.css';
 
 interface CompanyInputProps {
@@ -10,6 +12,8 @@ interface CompanyInputProps {
 
 const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onCompanyNameChange }) => {
   const [companyName, setCompanyName] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   // Debounced function for temporary content
   const debouncedOnChange = useCallback(debounce((name: string) => {
@@ -22,10 +26,26 @@ const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onComp
     debouncedOnChange(name);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (companyName.trim() !== '') {
-      onCompanyNameSubmit(companyName.trim()).then(() => setCompanyName(''));
+      try {
+        const { success, message } = await submitCompany(companyName.trim());
+        if (success) {
+          console.log('Company submitted successfully');
+          onCompanyNameSubmit(companyName.trim());
+          setCompanyName('');
+        } else {
+          if (message === 'Company already exists.') {
+            navigate('/review-already-given');
+          } else {
+            setError(message || 'Failed to submit company. Please try again.');
+          }
+        }
+      } catch (error) {
+        console.error('Error submitting company:', error);
+        setError('An error occurred while submitting the company.');
+      }
     }
   };
 
@@ -53,6 +73,7 @@ const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onComp
           <button className="submit-button" type="submit" disabled={!companyName.trim()}>
             Invia
           </button>
+          {error && <div className="error-message">{error}</div>}
         </form>
       </div>
     </div>
