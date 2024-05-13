@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { subscribeToEmail } from '../services/reviewService';
 
 interface EmailSubscriptionContainerProps {
-    onSubmissionSuccess: () => void; 
+    onSubmissionSuccess: () => void;
 }
 
 const EmailSubscriptionContainer: React.FC<EmailSubscriptionContainerProps> = ({ onSubmissionSuccess }) => {
@@ -29,7 +29,7 @@ const EmailSubscriptionContainer: React.FC<EmailSubscriptionContainerProps> = ({
     return (
         <form onSubmit={handleSubmit}>
             <div className="email-section">
-                <p className="interest-text">If you are interested in following the community, please leave your email!</p>
+                <p className="interest-text">Se sei interessato a ricevere aggiornamenti, lascia la tua email!</p>
                 <input
                     type="email"
                     value={email}
@@ -42,7 +42,7 @@ const EmailSubscriptionContainer: React.FC<EmailSubscriptionContainerProps> = ({
                     className="submit-button"
                     disabled={isButtonDisabled}
                 >
-                    Subscribe
+                    Iscriviti
                 </button>
             </div>
         </form>

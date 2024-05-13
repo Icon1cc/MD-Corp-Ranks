@@ -40,18 +40,18 @@ const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onComp
     <div id="root">
       <WelcomeHeader />
       <div className="company-input-container">
-        <h1>Welcome to JobInsights.com</h1>
-        <p>To begin, please enter your company name and click on submit.</p>
+        <h1>Benvenuto su JobInsights.com</h1>
+        <p>Per iniziare, inserisci il nome della tua azienda e clicca su Invia</p>
         <form onSubmit={handleSubmit} className="company-input-form">
           <input
             className="company-input"
             type="text"
-            placeholder="Enter your company name"
+            placeholder="Inserisci il nome della tua azienda"
             value={companyName}
             onChange={handleCompanyNameChange}
           />
           <button className="submit-button" type="submit" disabled={!companyName.trim()}>
-            Submit
+            Invia
           </button>
         </form>
       </div>
