@@ -70,7 +70,7 @@ const ReviewWizard: React.FC = () => {
                     <div className="progress-circle">
                         {currentQuestionIndex + 1}/{questions.length}
                     </div>
-                    <h1>Benvenuti nella sezione delle recensioni</h1>
+                    <h1>Benvenuto nel questionario di recensione</h1>
                     <h2>{currentQuestion.title}</h2>
                     <p>{currentQuestion.subtitle}</p>
                     <StarContainer rating={rating} handleRating={handleRating} />
@@ -83,7 +83,7 @@ const ReviewWizard: React.FC = () => {
                         Invia
                     </button>
 
-                    <p className="review-note">Una volta inviata la revisione per questa domanda, non è più possibile modificarla.</p>
+                    <p className="review-note">Una volta inviata la valutazione per questa domanda, non è più possibile modificarla.</p>
                 </div>
             </div>
         </div>

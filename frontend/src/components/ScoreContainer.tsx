@@ -37,7 +37,7 @@ const ScoreContainer: React.FC = () => {
     }, []);
 
     return isLoading ? (
-        <div>Caricamento del punteggio totale...</div>
+        <div>Valutazione finale:</div>
     ) : totalScore !== null ? (
         <div className="score-container" style={{ paddingBottom: '20px' }}>
             <p className="score-label" style={{ fontWeight: 'bold', fontSize: '18px' }}>Punteggio di valutazione:</p>

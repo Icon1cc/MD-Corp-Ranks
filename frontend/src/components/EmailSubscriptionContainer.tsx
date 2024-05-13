@@ -29,7 +29,7 @@ const EmailSubscriptionContainer: React.FC<EmailSubscriptionContainerProps> = ({
     return (
         <form onSubmit={handleSubmit}>
             <div className="email-section">
-                <p className="interest-text">Se sei interessato a seguire la comunità, lascia la tua email!</p>
+                <p className="interest-text">Se sei interessato a ricevere aggiornamenti, lascia la tua email!</p>
                 <input
                     type="email"
                     value={email}
@@ -42,7 +42,7 @@ const EmailSubscriptionContainer: React.FC<EmailSubscriptionContainerProps> = ({
                     className="submit-button"
                     disabled={isButtonDisabled}
                 >
-                    Sottoscrivi
+                    Iscriviti
                 </button>
             </div>
         </form>
