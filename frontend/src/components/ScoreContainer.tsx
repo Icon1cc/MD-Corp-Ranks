@@ -37,10 +37,10 @@ const ScoreContainer: React.FC = () => {
     }, []);
 
     return isLoading ? (
-        <div>Valutazione finale:</div>
+        <div>Caricamento del punteggio totale...</div>
     ) : totalScore !== null ? (
         <div className="score-container" style={{ paddingBottom: '20px' }}>
-            <p className="score-label" style={{ fontWeight: 'bold', fontSize: '18px' }}>Punteggio di valutazione:</p>
+            <p className="score-label" style={{ fontWeight: 'bold', fontSize: '18px' }}>Valutazione finale:</p>
             <div style={{ width: 200, height: 200, margin: 'auto' }}>
                 <CircularProgressbar
                     value={totalScore}
