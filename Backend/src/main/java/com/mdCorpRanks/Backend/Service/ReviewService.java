@@ -25,14 +25,11 @@ public class ReviewService {
     }
 
     public int calculateWeightedAverage(UUID userId) {
-        String sql = "SELECT \"UserID\", SUM(\"Rating\" * \"Weight\") / SUM(\"Weight\") AS WeightedAverage" +
-                     "FROM " +
-                     "LatestRating" +
-                     "WHERE " +
-                     "\"UserID\" = ?" + 
-                     "GROUP BY" +
-                     "\"UserID\";";
-        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        String sql = "SELECT SUM((\"Rating\" * 20) * \"Weight\") / SUM(\"Weight\") AS WeightedAverage " +
+                     "FROM LatestRating " +
+                     "WHERE \"UserID\" = ? " +
+                     "GROUP BY \"UserID\";";
+        Double average = jdbcTemplate.queryForObject(sql, Double.class, userId);
+        return average != null ? average.intValue() : 0; 
     }
 }
-

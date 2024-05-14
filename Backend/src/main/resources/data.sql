@@ -24,6 +24,7 @@ INSERT INTO client ("UserID", "RegistrationTime") VALUES
 ('Leadership', 'Leadership provides clear direction and support', 1.75);
  */
 
+
 /*  INSERT INTO question_rating ("UserID", "QuestionID", "Rating", "Timestamp") VALUES
 ('b456bbc1-ddfd-49dd-8133-92c0611a9272', 1, 5, NOW()),
 ('6379088f-9a8e-4bd6-b7ac-4b84b02372e8', 2, 4, NOW()),
@@ -40,13 +41,11 @@ INSERT INTO client ("UserID", "RegistrationTime") VALUES
  INSERT INTO question_rating ("UserID", "QuestionID", "Rating", "Timestamp") VALUES
 ('b456bbc1-ddfd-49dd-8133-92c0611a9272', 4, 6, NOW()); */
 
- SELECT 
-    "UserID",
-    SUM("Rating" * "Weight") / SUM("Weight") AS WeightedAverage
+/*  SELECT 
+    "UserID", SUM("Rating" * "Weight") / SUM("Weight") AS WeightedAverage
 FROM 
     LatestRating
 WHERE 
     "UserID" = 'b456bbc1-ddfd-49dd-8133-92c0611a9272'  
 GROUP BY 
-    "UserID";
-
+    "UserID"; */

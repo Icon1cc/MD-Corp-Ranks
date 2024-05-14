@@ -11,6 +11,7 @@ import com.mdCorpRanks.Backend.Model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import java.util.UUID;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -21,7 +22,7 @@ public class ReviewsController {
     private final CookieHandling cookieHandling;
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getReviewAverage(HttpServletRequest request) {
+    public ResponseEntity<?> getReviewAverage(HttpServletRequest request) {
         UUID userId = cookieHandling.extractUserIdFromCookies(request);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse("Authentication failed. No valid user ID found in cookies."));
@@ -29,7 +30,7 @@ public class ReviewsController {
     
         try {
             int averageScore = reviewService.calculateWeightedAverage(userId);
-            return ResponseEntity.ok(new ApiResponse("Total Score: " + String.format("%.1f", averageScore)));
+            return ResponseEntity.ok(Collections.singletonMap("totalScore", averageScore)); 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to retrieve average score."));
         }
@@ -44,7 +45,6 @@ public class ReviewsController {
     
         boolean reviewAlreadySubmitted = reviewService.checkIfReviewAlreadySubmitted(userId);
         if (reviewAlreadySubmitted) {
-            // Change to use ApiResponse to keep the response format consistent
             return ResponseEntity.ok(new ApiResponse("Review already submitted for user ID: " + userId));
         }
     
@@ -52,3 +52,4 @@ public class ReviewsController {
         return ResponseEntity.ok(new ApiResponse("Review submission tracked successfully."));
     }
 }
+
