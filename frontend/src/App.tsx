@@ -13,7 +13,6 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/review" element={<ReviewWizard />} />
           <Route path="/thank-you" element={<ThankYou />} />
-          {/* Add other routes as needed */}
         </Routes>
       </div>
     </Router>
