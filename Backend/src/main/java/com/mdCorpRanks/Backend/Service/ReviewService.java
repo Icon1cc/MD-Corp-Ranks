@@ -23,5 +23,13 @@ public class ReviewService {
         String sql = "INSERT INTO review (\"UserID\", \"ReviewTime\") VALUES (?, ?)";
         jdbcTemplate.update(sql, userId, submissionTime);
     }
-}
 
+    public int calculateWeightedAverage(UUID userId) {
+        String sql = "SELECT SUM((\"Rating\" * 20) * \"Weight\") / SUM(\"Weight\") AS WeightedAverage " +
+                     "FROM LatestRating " +
+                     "WHERE \"UserID\" = ? " +
+                     "GROUP BY \"UserID\";";
+        Double average = jdbcTemplate.queryForObject(sql, Double.class, userId);
+        return average != null ? average.intValue() : 0; 
+    }
+}

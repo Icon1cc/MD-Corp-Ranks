@@ -49,3 +49,17 @@ CREATE TABLE IF NOT EXISTS review (
     "ReviewTime" TIMESTAMP NOT NULL,
     FOREIGN KEY ("UserID") REFERENCES "client"("UserID")
 );
+
+CREATE OR REPLACE VIEW LatestRating AS
+SELECT DISTINCT ON (qr."UserID", qr."QuestionID") 
+    qr."UserID",
+    qr."QuestionID",
+    qr."Rating",
+    q."Weight",
+    qr."Timestamp"
+FROM 
+    question_rating qr
+JOIN 
+    question q ON qr."QuestionID" = q."ID"
+ORDER BY 
+    qr."UserID", qr."QuestionID", qr."Timestamp" DESC;
