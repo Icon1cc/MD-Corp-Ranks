@@ -5,16 +5,13 @@ import userService from '../services/userService';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Error.css';
 import '../styles/Loader.css';
+import submitCompany from '../services/submitCompany';
 
 const Home: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [showCompanyInput, setShowCompanyInput] = useState<boolean>(false);
     const navigate = useNavigate();
-
-    const handleCompanyNameChange = (companyName: string) => {
-        console.log('Current company name:', companyName);
-    };
 
     useEffect(() => {
         const fetchUserStatus = async () => {
@@ -23,7 +20,7 @@ const Home: React.FC = () => {
                 const data = await userService.checkUserStatus();
                 setShowCompanyInput(!data.reviewAlreadyGiven);
                 if (data.reviewAlreadyGiven) {
-                    navigate('/leave-email');
+                    navigate('/review-already-given');
                 }
             } catch (error) {
                 setError('There was an error fetching user status.');
@@ -36,9 +33,21 @@ const Home: React.FC = () => {
         fetchUserStatus();
     }, [navigate]);
 
+    const handleCompanyNameChange = (companyName: string) => {
+        console.log('Current company name:', companyName);
+    };
+
     const handleCompanySubmit = async (companyName: string) => {
-        console.log('Company name submitted:', companyName);
-        navigate('/review');
+        setLoading(true);
+        const submissionResult = await submitCompany(companyName);
+        if (submissionResult.success) {
+            console.log('Company name submitted:', companyName);
+            navigate('/review');
+        } else {
+            setError(submissionResult.message ?? '');
+            console.error('Failed to submit company:', submissionResult.message);
+        }
+        setLoading(false);
     };
 
     return (
