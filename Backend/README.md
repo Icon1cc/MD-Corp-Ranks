@@ -6,10 +6,15 @@ Welcome to MD-CORP-BACKEND. This setup provides a foundation for building RESTfu
 
 # Important Links
 Spring Initializr: https://start.spring.io/
+
 Spring Boot Documentation: https://docs.spring.io/spring-boot/docs/current/reference/html/
+
 Maven Repository: https://mvnrepository.com/
+
 Postman for testing APIs: https://www.postman.com/
-Getting Started
+
+### Getting Started
+
 Follow these steps to set up and run your backend project.
 
 # Step 1: Clone the Repository
@@ -38,21 +43,7 @@ Or if Maven is installed globally:
 mvn clean spring-boot:run
 Your application will start.
 
-# Step 7: Test Endpoints Using Postman
-GET /hello: Test the basic greeting endpoint.
-Expect Hello World
-
-POST /cookie-generator: Test the endpoint for generating cookies.
-Expect a random cookie in the header.
-
-GET /cookie-generator: Test the endpoint for generating cookies.
-Expect the random cookie to be written to the console.
-
-POST /: Test the default POST endpoint without any body.
-Expect 200 OK.
-
-
-# Step 8: Building for Production
+# Step 7: Building for Production
 When ready for deployment, build your project:
 ./mvnw clean package
 Or with global Maven:git add RE 
