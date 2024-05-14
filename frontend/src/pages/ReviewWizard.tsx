@@ -39,7 +39,7 @@ const ReviewWizard: React.FC = () => {
     };
     const handleSubmit = async () => {
         const currentQuestion = questions[currentQuestionIndex];
-        await fetch(`/api/questions/${currentQuestion.id}/ratings`, {
+        await fetch(`http://localhost:8080/api/questions/${currentQuestion.id}/ratings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
