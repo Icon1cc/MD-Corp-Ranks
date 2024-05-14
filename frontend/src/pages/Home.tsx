@@ -8,19 +8,20 @@ import '../styles/Loader.css';
 import submitCompany from '../services/submitCompany';
 
 const Home: React.FC = () => {
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [showCompanyInput, setShowCompanyInput] = useState<boolean>(false);
+    const [showCompanyInput, setShowCompanyInput] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchUserStatus = async () => {
+        async function fetchUserStatus() {
             setLoading(true);
             try {
                 const data = await userService.checkUserStatus();
-                setShowCompanyInput(!data.reviewAlreadyGiven);
                 if (data.reviewAlreadyGiven) {
                     navigate('/review-already-given');
+                } else {
+                    setShowCompanyInput(true);
                 }
             } catch (error) {
                 setError('There was an error fetching user status.');
@@ -28,7 +29,7 @@ const Home: React.FC = () => {
             } finally {
                 setLoading(false);
             }
-        };
+        }
 
         fetchUserStatus();
     }, [navigate]);
@@ -39,15 +40,26 @@ const Home: React.FC = () => {
 
     const handleCompanySubmit = async (companyName: string) => {
         setLoading(true);
-        const submissionResult = await submitCompany(companyName);
-        if (submissionResult.success) {
-            console.log('Company name submitted:', companyName);
-            navigate('/review');
-        } else {
-            setError(submissionResult.message ?? '');
-            console.error('Failed to submit company:', submissionResult.message);
+        try {
+            const statusCheck = await userService.checkUserStatus();
+            if (statusCheck.reviewAlreadyGiven) {
+                navigate('/review-already-given');
+            } else {
+                const submissionResult = await submitCompany(companyName);
+                if (submissionResult.success) {
+                    console.log('Company name submitted:', companyName);
+                    navigate('/review');
+                } else {
+                    setError(submissionResult.message ?? 'An error occurred during submission.');
+                    console.error('Failed to submit company:', submissionResult.message);
+                }
+            }
+        } catch (error) {
+            setError('There was an error during the submission process.');
+            console.error('Error during the submission process:', error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (
