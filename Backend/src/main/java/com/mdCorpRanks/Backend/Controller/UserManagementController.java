@@ -20,6 +20,7 @@ public class UserManagementController {
     private final EmailSubscriptionService emailSubscriptionService;
     private final CompanyRegistrationService companyRegistrationService;
     private final CookieHandling cookieHandling;
+    private final ReviewService reviewService;
         
     @PostMapping("/subscribe")
     public ResponseEntity<ApiResponse> subscribeToEmail(HttpServletRequest request, @RequestBody EmailSubscriptionRequest subscriptionRequest) {
@@ -58,6 +59,21 @@ public class UserManagementController {
             return ResponseEntity.ok(new ApiResponse("Company name registered successfully."));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to register company name. Please try again later."));
+        }
+    }
+
+    @PostMapping("/farewells")
+    public ResponseEntity<ApiResponse> trackFarewell(HttpServletRequest request) {
+        UUID userId = cookieHandling.extractUserIdFromCookies(request);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse("Authentication failed. No valid user ID found in cookies."));
+        }
+
+        try {
+            reviewService.logFarewell(userId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Farewell tracked successfully."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to track farewell. Please try again later."));
         }
     }
 }
