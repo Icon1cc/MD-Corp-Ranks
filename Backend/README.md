@@ -1,6 +1,5 @@
 MULTIDISCIPLINARY PROJECT
 
-
 # MD-CORP-BACKEND
 Welcome to MD-CORP-BACKEND. This setup provides a foundation for building RESTful APIs, incorporating Spring Security, connecting to databases, and more.
 
