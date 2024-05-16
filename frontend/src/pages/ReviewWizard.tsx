@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import questionService from '../services/questionService';
+import userService from '../services/userService'; // Import the userService for sending farewell
 import '../styles/reviewWizard.css';
 import WelcomeHeader from '../components/WelcomeHeader';
 import StarContainer from '../components/StarContainer';
@@ -18,6 +19,7 @@ const ReviewWizard: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [rating, setRating] = useState(0);
     const navigate = useNavigate();
+    const beforeUnloadListener = useRef<(() => void) | null>(null);
 
     useEffect(() => {
         const loadQuestions = async () => {
@@ -32,11 +34,19 @@ const ReviewWizard: React.FC = () => {
         };
 
         loadQuestions();
+
+        beforeUnloadListener.current = userService.setupBeforeUnloadListener(); // Set up the beforeunload listener
+        return () => {
+            if (beforeUnloadListener.current) {
+                beforeUnloadListener.current();
+            }
+        };
     }, []);
 
     const handleRating = async (rate: number) => {
         setRating(rate);
     };
+
     const handleSubmit = async () => {
         const currentQuestion = questions[currentQuestionIndex];
         await fetch(`http://localhost:8080/api/questions/${currentQuestion.id}/ratings`, {

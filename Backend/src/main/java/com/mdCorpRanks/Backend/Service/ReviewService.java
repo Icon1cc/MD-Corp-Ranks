@@ -32,4 +32,10 @@ public class ReviewService {
         Double average = jdbcTemplate.queryForObject(sql, Double.class, userId);
         return average != null ? average.intValue() : 0; 
     }
+
+    public void logFarewell(UUID userId) {
+        LocalDateTime exitTime = LocalDateTime.now();
+        String sql = "INSERT INTO page_exit (\"UserID\", \"ExitTime\") VALUES (?, ?)";
+        jdbcTemplate.update(sql, userId, exitTime);
+    }
 }

@@ -32,6 +32,9 @@ const Home: React.FC = () => {
         }
 
         fetchUserStatus();
+
+        const cleanup = userService.setupBeforeUnloadListener();
+        return () => cleanup();
     }, [navigate]);
 
     const handleCompanyNameChange = (companyName: string) => {
