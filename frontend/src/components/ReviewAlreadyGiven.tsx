@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../styles/ThankYou.css'; 
 import WelcomeHeader from '../components/WelcomeHeader';
 import EmailSubscriptionContainer from '../components/EmailSubscriptionContainer';
-import SuccessFeedbackCountdown from '../components/SuccessFeedbackCountdown';
 
 const ReviewAlreadyGiven: React.FC = () => {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-    const navigate = useNavigate();
 
     const handleEmailSubmissionSuccess = () => {
         setShowSuccessMessage(true);
-    };
-
-    const handleTimeoutCompletion = () => {
-        navigate('/', { replace: true });
     };
 
     return (
@@ -27,7 +20,7 @@ const ReviewAlreadyGiven: React.FC = () => {
                         onSubmissionSuccess={handleEmailSubmissionSuccess}
                     />
                 ) : (
-                    <SuccessFeedbackCountdown onTimeout={handleTimeoutCompletion} />
+                    <p className="success-message">Iscrizione email avvenuta con successo!</p>
                 )}
             </div>
         </div>
