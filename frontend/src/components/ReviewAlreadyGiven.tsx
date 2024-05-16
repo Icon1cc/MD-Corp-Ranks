@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import '../styles/ThankYou.css'; 
+import '../styles/ThankYou.css';
 import WelcomeHeader from '../components/WelcomeHeader';
 import EmailSubscriptionContainer from '../components/EmailSubscriptionContainer';
+import ScoreContainer from '../components/ScoreContainer';
 
 const ReviewAlreadyGiven: React.FC = () => {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -15,6 +16,7 @@ const ReviewAlreadyGiven: React.FC = () => {
             <WelcomeHeader />
             <div className="thank-you-modal">
                 <h2 className="thank-you-text">Spiacenti, non puoi inviare un'altra richiesta. Hai già dato una recensione.</h2>
+                <ScoreContainer />
                 {!showSuccessMessage ? (
                     <EmailSubscriptionContainer
                         onSubmissionSuccess={handleEmailSubmissionSuccess}
