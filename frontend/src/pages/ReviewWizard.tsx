@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import questionService from '../services/questionService';
+import userService from '../services/userService';
 import '../styles/reviewWizard.css';
 import WelcomeHeader from '../components/WelcomeHeader';
 import StarContainer from '../components/StarContainer';
@@ -18,25 +19,35 @@ const ReviewWizard: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [rating, setRating] = useState(0);
     const navigate = useNavigate();
+    const beforeUnloadListener = useRef<(() => void) | null>(null);
 
     useEffect(() => {
         const loadQuestions = async () => {
+            setLoading(true);
             try {
                 const data = await questionService.fetchQuestions();
                 setQuestions(data.questions);
-                setLoading(false);
             } catch (error) {
                 console.error('Error loading questions:', error);
+            } finally {
                 setLoading(false);
             }
         };
 
         loadQuestions();
+
+        beforeUnloadListener.current = userService.setupBeforeUnloadListener();
+        return () => {
+            if (beforeUnloadListener.current) {
+                beforeUnloadListener.current();
+            }
+        };
     }, []);
 
-    const handleRating = async (rate: number) => {
+    const handleRating = (rate: number) => {
         setRating(rate);
     };
+
     const handleSubmit = async () => {
         const currentQuestion = questions[currentQuestionIndex];
         await fetch(`http://localhost:8080/api/questions/${currentQuestion.id}/ratings`, {
@@ -44,7 +55,7 @@ const ReviewWizard: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ rating: rating }),
+            body: JSON.stringify({ rating }),
             credentials: 'include'
         });
 
@@ -58,7 +69,7 @@ const ReviewWizard: React.FC = () => {
     };
 
     if (loading) return <Loader />;
-    if (questions.length === 0) return <Loader />;
+    if (questions.length === 0) return <div>No questions available.</div>;
 
     const currentQuestion = questions[currentQuestionIndex];
 
