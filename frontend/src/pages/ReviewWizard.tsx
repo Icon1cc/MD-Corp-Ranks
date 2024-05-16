@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import questionService from '../services/questionService';
-import userService from '../services/userService';
+import userService from '../services/userService'; 
 import '../styles/reviewWizard.css';
 import WelcomeHeader from '../components/WelcomeHeader';
 import StarContainer from '../components/StarContainer';
-import { trackReviewSubmission } from '../services/reviewService';
+import { trackReviewSubmission } from '../services/reviewService'; 
 
 type Question = {
     id: number;
@@ -23,26 +23,34 @@ const ReviewWizard: React.FC = () => {
     const beforeUnloadListener = useRef<(() => void) | null>(null);
 
     useEffect(() => {
-        const loadQuestions = async () => {
+        const fetchData = async () => {
+            setLoading(true);
             try {
+                // Check user status
+                const userStatus = await userService.checkUserStatus();
+                if (userStatus.reviewAlreadyGiven) {
+                    navigate('/review-already-given');
+                    return;
+                }
+
                 const data = await questionService.fetchQuestions();
                 setQuestions(data.questions);
-                setLoading(false);
             } catch (error) {
-                console.error('Error loading questions:', error);
+                console.error('Error during data fetching:', error);
+            } finally {
                 setLoading(false);
             }
         };
 
-        loadQuestions();
+        fetchData();
 
-        beforeUnloadListener.current = userService.setupBeforeUnloadListener();
+        beforeUnloadListener.current = userService.setupBeforeUnloadListener(); 
         return () => {
             if (beforeUnloadListener.current) {
                 beforeUnloadListener.current();
             }
         };
-    }, []);
+    }, [navigate]);
 
     const handleRating = async (rate: number) => {
         setRating(rate);
@@ -64,6 +72,7 @@ const ReviewWizard: React.FC = () => {
             setCurrentQuestionIndex(nextQuestionIndex);
             setRating(0);
         } else {
+            // Track the review submission for the last question
             const trackResponse = await trackReviewSubmission();
             if (trackResponse.success) {
                 navigate('/thank-you');
