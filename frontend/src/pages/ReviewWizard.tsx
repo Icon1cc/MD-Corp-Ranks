@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import questionService from '../services/questionService';
-import userService from '../services/userService';
+import userService from '../services/userService'; // Import the userService for sending farewell
 import '../styles/reviewWizard.css';
 import WelcomeHeader from '../components/WelcomeHeader';
 import StarContainer from '../components/StarContainer';
@@ -23,20 +23,19 @@ const ReviewWizard: React.FC = () => {
 
     useEffect(() => {
         const loadQuestions = async () => {
-            setLoading(true);
             try {
                 const data = await questionService.fetchQuestions();
                 setQuestions(data.questions);
+                setLoading(false);
             } catch (error) {
                 console.error('Error loading questions:', error);
-            } finally {
                 setLoading(false);
             }
         };
 
         loadQuestions();
 
-        beforeUnloadListener.current = userService.setupBeforeUnloadListener();
+        beforeUnloadListener.current = userService.setupBeforeUnloadListener(); // Set up the beforeunload listener
         return () => {
             if (beforeUnloadListener.current) {
                 beforeUnloadListener.current();
@@ -44,7 +43,7 @@ const ReviewWizard: React.FC = () => {
         };
     }, []);
 
-    const handleRating = (rate: number) => {
+    const handleRating = async (rate: number) => {
         setRating(rate);
     };
 
@@ -55,7 +54,7 @@ const ReviewWizard: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ rating }),
+            body: JSON.stringify({ rating: rating }),
             credentials: 'include'
         });
 
@@ -69,7 +68,7 @@ const ReviewWizard: React.FC = () => {
     };
 
     if (loading) return <Loader />;
-    if (questions.length === 0) return <div>No questions available.</div>;
+    if (questions.length === 0) return <Loader />;
 
     const currentQuestion = questions[currentQuestionIndex];
 
