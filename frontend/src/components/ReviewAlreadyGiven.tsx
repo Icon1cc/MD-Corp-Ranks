@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/ThankYou.css'; // Use the same styles as the ThankYou page
+import '../styles/ThankYou.css'; 
 import WelcomeHeader from '../components/WelcomeHeader';
 import EmailSubscriptionContainer from '../components/EmailSubscriptionContainer';
 import SuccessFeedbackCountdown from '../components/SuccessFeedbackCountdown';
