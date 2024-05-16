@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import questionService from '../services/questionService';
-import userService from '../services/userService'; // Import the userService for sending farewell
+import userService from '../services/userService';
 import '../styles/reviewWizard.css';
 import WelcomeHeader from '../components/WelcomeHeader';
 import StarContainer from '../components/StarContainer';
+import { trackReviewSubmission } from '../services/reviewService';
 
 type Question = {
     id: number;
@@ -35,7 +36,7 @@ const ReviewWizard: React.FC = () => {
 
         loadQuestions();
 
-        beforeUnloadListener.current = userService.setupBeforeUnloadListener(); // Set up the beforeunload listener
+        beforeUnloadListener.current = userService.setupBeforeUnloadListener();
         return () => {
             if (beforeUnloadListener.current) {
                 beforeUnloadListener.current();
@@ -63,7 +64,12 @@ const ReviewWizard: React.FC = () => {
             setCurrentQuestionIndex(nextQuestionIndex);
             setRating(0);
         } else {
-            navigate('/thank-you');
+            const trackResponse = await trackReviewSubmission();
+            if (trackResponse.success) {
+                navigate('/thank-you');
+            } else {
+                console.error('Failed to track review submission.');
+            }
         }
     };
 
