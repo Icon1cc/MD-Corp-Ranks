@@ -11,7 +11,6 @@ interface CompanyInputProps {
 const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onCompanyNameChange }) => {
   const [companyName, setCompanyName] = useState('');
 
-  // Debounced function for temporary content
   const debouncedOnChange = useCallback(debounce((name: string) => {
     onCompanyNameChange(name);
   }, 500), [onCompanyNameChange]);
@@ -29,7 +28,6 @@ const CompanyInput: React.FC<CompanyInputProps> = ({ onCompanyNameSubmit, onComp
     }
   };
 
-  // Cleanup useEffect for debouncedOnChange
   useEffect(() => {
     return () => {
       debouncedOnChange.cancel();

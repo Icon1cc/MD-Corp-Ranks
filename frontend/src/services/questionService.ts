@@ -13,62 +13,35 @@ export const fetchQuestions = async (): Promise<{ questions: { id: number; title
     }
 
     const data = await response.json();
-    return data; 
+    return data;
   } catch (error) {
     console.error('Error fetching questions:', error);
     throw error;
   }
 };
 
-export default {
-  fetchQuestions
-};
+export const submitRating = async (questionId: number, rating: number): Promise<void> => {
+  try {
+    const response = await fetch(`${backendUrlAndPort}/api/questions/${questionId}/ratings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ rating }),
+      credentials: 'include',
+    });
 
-
-// This mock simulates fetching questions from an API
-/* const mockQuestions = {
-  questions: [
-    {
-      id: 1,
-      title: "Company goals",
-      subtitle: "The company has clear long-term objectives",
-    },
-    {
-      id: 2,
-      title: "Work Environment",
-      subtitle: "The work setting promotes employee productivity",
-    },
-    {
-      id: 3,
-      title: "Management Support",
-      subtitle: "Managers regularly support and review employee work",
-    },
-    {
-      id: 4,
-      title: "Employee Benefits",
-      subtitle: "The company offers competitive employee benefits",
-    },
-    {
-      id: 5,
-      title: "Career Development",
-      subtitle: "There are ample opportunities for personal growth and career development",
+    if (!response.ok) {
+      console.error('Failed to submit rating with status:', response.status);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  ]
-}; */
-
-// Simulate network delay
-/* export const fetchQuestions = (): Promise<{ questions: { id: number; title: string; subtitle: string }[] }> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (Math.random() < 0.9) {
-        resolve(mockQuestions);
-      } else {
-        reject("Failed to fetch questions: Network error");
-      }
-    }, 1000);
-  });
+  } catch (error) {
+    console.error('Error submitting rating:', error);
+    throw error;
+  }
 };
 
 export default {
-  fetchQuestions
-}; */
+  fetchQuestions,
+  submitRating
+};
