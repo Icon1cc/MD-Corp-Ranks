@@ -19,7 +19,6 @@ const ReviewWizardContainer: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [rating, setRating] = useState(0);
     const navigate = useNavigate();
     const beforeUnloadListener = useRef<(() => void) | null>(null);
 
@@ -27,7 +26,6 @@ const ReviewWizardContainer: React.FC = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                // Check user status
                 const userStatus = await userService.checkUserStatus();
                 if (userStatus.reviewAlreadyGiven) {
                     navigate('/review-already-given');
@@ -53,18 +51,13 @@ const ReviewWizardContainer: React.FC = () => {
         };
     }, [navigate]);
 
-    const handleRating = async (rate: number) => {
-        setRating(rate);
-    };
-
-    const handleSubmit = async () => {
+    const handleSubmit = async (rating: number) => {
         const currentQuestion = questions[currentQuestionIndex];
         await questionService.submitRating(currentQuestion.id, rating);
 
         const nextQuestionIndex = currentQuestionIndex + 1;
         if (nextQuestionIndex < questions.length) {
             setCurrentQuestionIndex(nextQuestionIndex);
-            setRating(0);
         } else {
             const trackResponse = await trackReviewSubmission();
             if (trackResponse.success) {
@@ -87,10 +80,7 @@ const ReviewWizardContainer: React.FC = () => {
                 <ProgressCircle currentQuestionIndex={currentQuestionIndex} totalQuestions={questions.length} />
                 <QuestionCard
                     question={currentQuestion}
-                    rating={rating}
-                    handleRating={handleRating}
                     handleSubmit={handleSubmit}
-                    isSubmitDisabled={rating === 0}
                 />
             </div>
         </div>
