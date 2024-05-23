@@ -1,0 +1,87 @@
+.thank-you-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #007a99;
+}
+
+.header {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  right: 20px;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  text-align: right;
+}
+
+.thank-you-modal {
+  text-align: center;
+}
+
+.email-section {
+  background-color: #007a99;
+  padding: 2rem;
+  border-radius: 25px;
+  border: 2px solid black;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.email-input {
+  width: 70%;
+  padding: 1rem;
+  border-radius: 25px;
+  border: 1px solid black;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: black;
+  background-color: white;
+}
+
+.submit-button {
+  background-color: #004d66;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  border: 1px solid black;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  width: fit-content;
+}
+
+.submit-button:hover {
+  background-color: #006680;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.thank-you-text {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.project-text {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.interest-text {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}

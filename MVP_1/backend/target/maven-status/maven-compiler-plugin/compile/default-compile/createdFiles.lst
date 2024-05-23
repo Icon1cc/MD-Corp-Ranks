@@ -1,0 +1,12 @@
+com/multiProject/mdCorpRanks/service/ReviewService.class
+com/multiProject/mdCorpRanks/MdCorpRanksApplication.class
+com/multiProject/mdCorpRanks/service/AccessLogService.class
+com/multiProject/mdCorpRanks/service/PreferenceService.class
+com/multiProject/mdCorpRanks/service/UserService.class
+com/multiProject/mdCorpRanks/model/PreferenceDTO.class
+com/multiProject/mdCorpRanks/model/Preference.class
+com/multiProject/mdCorpRanks/model/UserResponseDTO.class
+com/multiProject/mdCorpRanks/model/ApiResponse.class
+com/multiProject/mdCorpRanks/controller/CookieController.class
+com/multiProject/mdCorpRanks/model/EmailSubscriptionRequest.class
+com/multiProject/mdCorpRanks/service/EmailSubscriptionService.class
